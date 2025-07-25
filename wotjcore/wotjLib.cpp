@@ -11,7 +11,7 @@ link this file to access all of wotjcore
 
 
 //platform library, change as needed. must be defined first, as other libraries depend on it.
-#include ".wotjLinGCC.cpp"	//linux
+#include "wotjLinGCC.cpp"	//linux
 //#include ".wotjWinMSVC.cpp"	//windows (WIP)
 
 #define lbr "\n"
@@ -59,14 +59,14 @@ getData = ptr2D(matrix, width, x, y);
 
 
 
-#include ".wotjOutput.cpp"
-#include ".wotjMath.cpp"
+#include "wotjOutput.cpp"
+#include "wotjMath.cpp"
 //#include ".wotjStructures.cpp"	//needs a rewrite
 //#include ".wotjFiles.cpp"
-#include ".wotjTime.cpp"
+#include "wotjTime.cpp"
 //#include ".wotjLibGL.cpp"	//wip pending Vulkan development
-#include ".wotjFixedString.cpp"
-#include ".wotjNumbers.cpp"
+#include "wotjFixedString.cpp"
+#include "wotjNumbers.cpp"
 //#include "wotjWIP.cpp"
 
 
