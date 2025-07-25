@@ -1,0 +1,76 @@
+Template file for an NPC object
+
+format should be as you see here.
+make sure there are spaces or breaks 
+around every element to easily accommodate
+the fstream-based function in the main file.
+
+   $Section_Name
+   §subsection_string= "string_data"
+   §subsection= data (
+        list_item list_data
+   )
+
+multi-element subsections like Special should
+have their parentheses be standalone as well.
+names or strings should use underscores instead
+of spaces, and be in quotations.
+
+the Base section should always be first,
+and present in every WOB. other sections, 
+as well as subsections, are optional and
+will be default.
+
+subsection lists should alternate between item
+name and data, without any other punctuation
+
+note that the loose and simplistic nature of 
+the function means syntax errors might result
+in the rest of the section getting skipped and
+all following subsections remaining default!
+
+end header comments with double star
+**
+
+
+
+
+
+$Base
+§name= "Jimbob_Farmerson_the_Hardy"
+§archetype= human
+§hp= 100
+§weight= 150
+§size= 1.0
+§model= 
+§description= "A_small_but_hard_person."
+§inanimate= 0
+§special= (
+    height 8
+    )
+
+$Stat
+§strength= 20
+§dexterity= 15
+§intelligence= 11
+§willpower= 18
+§charisma= 12
+§beauty= 50
+
+$Character
+§inventory= ( 10
+    hoe 1 
+    chewing_straw 2 
+    )
+§memory= ( 
+    job farmer
+    )
+§corpse= self
+§personality= (
+    hardworking 100
+    suspicious 70
+    intolerant 70
+    familial 90
+    )
+
+
