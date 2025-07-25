@@ -1,0 +1,9 @@
+- Pressed keys sometimes appear printed on screen. This appears to be a race condition bug with the input parsing (getKey() in .wotjLinGCC.cpp) that I have yet to figure out.
+  - This can easily be observed by using the bucket tool at a large brush size.
+
+- Resizing the window can be a pain, but there's probably not much I can do about that since every terminal and font is slightly different. That's why I've added a splash screen to make sure you're viewing it correctly.
+
+- Font choice can greatly affect the appearance. If the vertical stretching is disorienting, There is usually a font available that's a bit wider; the one used in the screenshots is MathJax_Vector. 
+  - The choice of font should not really matter, so long as it supports UTF-16.
+
+- Creating a directory often fails for unknown reasons, and will crash the program on doing so.
