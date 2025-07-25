@@ -1,5 +1,5 @@
 #pragma once
-#include "..wotjLib.cpp"
+#include "wotjLib.cpp"
 #include <cstdlib>
 #include <iostream>
 // #include <fstream>
