@@ -1,5 +1,5 @@
 #pragma once
-#include "..wotjLib.cpp"
+#include "wotjLib.cpp"
 
 //refactor: oops learned about Two's Complement; excluding the sign bit wont give an absolute value for negative values
 #define maskSign8 0xcf	//bitmask to exclude sign bit. 8 bit ver.
