@@ -4,6 +4,12 @@
 #include <vector>
 #include <cmath>    //currently, only used for sqrtl() in the circle brush functions
 #include <vector>	//used to hold dynamic Tile array for text tool
+//#include <vector>	//currently only used for activators
+#include <array>
+
+//these are currently only used for recovery operations in main()
+#include <sys/stat.h>
+#include <sys/types.h>
 
 /* master header file
 
