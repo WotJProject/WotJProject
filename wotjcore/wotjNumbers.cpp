@@ -3,7 +3,7 @@ This file should be complex number types such as Cycle and BoundNumber
 
 */
 #pragma once
-#include "..wotjLib.cpp"
+#include "wotjLib.cpp"
 #include <iostream>
 #include <cmath>
 
