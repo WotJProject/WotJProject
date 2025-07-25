@@ -1,16 +1,20 @@
-## Hi there 👋
+# Building the Project:
+The project requires the GCC compiler and at least C++23 (due to the use of std::filesystem and some other features).
 
-<!--
-**WotJProject/WotJProject** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+## Linux
+As I've been bouncing between IDEs, I'm still using makefiles- I find it the simplest and most independent solution for now.
+Run 'make' from the Wanderer/Source directory; either "make debug" or "make release" to specify the optimization level. You may also add "clean" to the command to automatically delete the compiled executable on exit.
+I've tested it on a clean version of Linux Mint, but I cannot guarantee compatibility with non-Ubuntu distros or Weyland-based systems.
 
-Here are some ideas to get you started:
+## Manual
+To manually compile it without makefile, simply compile Wanderer/Source/wandererMapMaker.cpp using at least the -std=c++23 tag. Other tags should not be necessary, as I've tested it to work fine without them, but using the ones in the makefile is still preferred. The wotjcore and Wanderer libraries are all statically linked to that main file directly or indirectly. 
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+## Windows
+It does 'run', technically. It will work with a few tweaks, but it won't display properly, and the performance will be abysmal. If you wish to try and get it working, be my guest. The main issue appears to be getting the terminal to print Unicode (UTF-16, 3 bytes each if you include the escape) characters. I can't find any good solutions online, so maybe you've got some insight into it. Another potential issue is I've modified the getKey function and key_t enum quite a bit recently, and the .wotjWinMSVC.cpp version may need to be updated to work properly. Until I resolve the Unicode issue, I haven't really made it a priority for looking into.
+Simply swap the platform library at the top of ..wotjLib.cpp to .wotjWinMSVC.cpp to get started. Everything else should be agnostic between Windows and Linux.
+After that, the makefile instructions above should also work for Windows, though this has only been loosely tested.
+
+# About the project:
+This tool is not intended to represent the game runtime, rather just modify its assets. It will not have the same architecture or rendering backend as the game itself (aside from wotjcore), such as realtime animations or map cells. It's written in a more C-style way mostly just for practice, but also because it seemed a bit overcomplicated to use OOP game state for something like this; actual in-engine editing will be done with an in-game editor as an all-in-one package. Perhaps you'll disagree, though, so feel free to weigh in!
+
+The overall goal of this RPG project is to familiarize myself with C++ and game programming. As such, I have no plans to implement square pixels (using the Upper Half Block trick), character sprites, or complex graphics, though I do wish to explore very simple animations. It will also be a platform to experiment with procedural generation, but none of that is included here. Each entity (called 'activators' in the code) will be a single screen character, and the terrain will be half-procedurally-generated, with pre-built structures and features being loaded in as needed. It will have a pathfinding/height map layer, though the exact nature of it is still open to experimentation.
