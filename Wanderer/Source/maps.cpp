@@ -157,6 +157,8 @@ bool saveMap(const char* name){return saveMap(name,map,mapSizeX,mapSizeY,false);
 
 //save clipboard data to file
 bool clipboardSave(){
+	std::filesystem::create_directory("../maps/history");
+	
 	std::ofstream saveFile;
 	saveFile.open("../maps/history/clipboard.wmap", std::ios::out | std::ios::binary);
 	
@@ -183,6 +185,8 @@ bool clipboardSave(){
 
 //save undo data to file
 bool historySave(){
+	std::filesystem::create_directory("../maps/history");
+	
 	std::ofstream saveFile;
 	undoSaveTarget++;
 	
