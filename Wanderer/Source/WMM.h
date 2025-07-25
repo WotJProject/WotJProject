@@ -1,5 +1,5 @@
 #pragma once
-#include "../../wotjcore/..wotjLib.cpp"
+#include "../../wotjcore/wotjLib.cpp"
 #include <filesystem>
 #include <vector>
 #include <cmath>    //currently, only used for sqrtl() in the circle brush functions
