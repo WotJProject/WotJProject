@@ -1,5 +1,5 @@
 #pragma once
-#include "..wotjLib.cpp"
+#include "wotjLib.cpp"
 #include <iostream>
 #include <string>	//only for handling streams
 #include <cstring>	//for std::memcpy/memmove/etc
