@@ -1,170 +1,3 @@
-/*
-
-/////////////////////////TO DO - high priority
-
-* fix race condition (in getKey()?) causing key inputs to be printed as text and screwing up the display during laggy times
-	-oof
-	-might honestly be easier just to learn to write our own stream objects
-	-can see it happen at EXACTLY brush size 14 when using the bucket tool on -O3
-		-on -O0, it happens much earlier, so definitely its performance-related
-
-* crash after returning from saveMmap????
-	-FIXED(partially), apparently its an issue with FixedString. changing to std::string prevents the crash
-		-will leave this here until i figure out whats wrong with it
-	-it still saves the map successfully, and theres nothing after that except closing the file and returning
-		-tried chaning return types, removing references, etc, nothing.
-
-* Clipboard
-	-saving and loading files (can be done manually by renaming them)
-	-rotate canvas
-
-* clean up naming and globals
-	-extern vs recursive #include? going with extern for now
-	-fix up naming inconsistencies like map/canvas
-	-remove redundant and obsolete globals
-		-dependent on DOD refactor
-	-consistent typing?
-		-signed vs unsigned
-
-* custom tile input
-	-broken
-	-probably not possible to fill in tileset, just do one character.
-	-might not be necessary now that we have the text tool
-
-* big DOD refactor!
-	-might have to wait until other high-priority things are addressed
-	-reduce runtime branching
-		-break up large functions
-			-drawScreen() is probably the most performance-critical in this respect
-			-specialize functions
-				-performance testing for tail call optimization in a switch statement
-				-call general code from function to avoid repetitious code?
-				-increases abstraction and reduces readability, but probably not by much since most of this code is unlikely to change at this point
-			-getKey() should be split up as well, as it is very performance-critical
-			-split up functions instead of passing bool parameters
-	-group common variables to ensure theyre cached together
-		-x and y are probably the biggest ones
-		-be careful of wasted memory with bools and smaller variables
-	-refactor structs to be more memory efficient
-		-test sizes to see if we can tell when memory is wasted
-		-mixing types creates wasted space? will need to do more research
-			-bools are the most suspect for wasted space, and we use too many as it is.
-
-* WINDOWS SUPPORT!
-	-unicode might as well be alien sorcery to the windows terminal
-		-since Tiles are read as strings, most should just work once we get this fixed.
-		-maybe just set data[0] to \u and offset the char data by one (will need to convert to 4 byte Tile)?
-		-preprocessor macro to swap iostream overloads and manually pass \u before printing tile data?
-	-the hard part is loading and saving files that will work on both platforms
-		-it would probably be easier to just get the windows terminal to use unicode
-	-have to create more preprocessor macros to automatically handle the platform differences	
-	-getkey needs to be overhauled
-
-///////////////////////////low-priority TO DO
-
--fix undesirable behavior on text tool using brushSize
-	-move outside loops?
-
--custom tileset?
-	-n-size array, or vector?
-	-hook into tilePicker?
-
--copy/paste tool import from file?
-	-half done, it does save/load automatically to file
-	-maybe option in loadMap menu?
-		-and saveMap to copy clipboard to another file
-
--write own file i/o streams based on C stdio.h
-	-ive dealt with this nonsense for the last time!
-	-im venting in the todo comment to remind myself that its worth the effort.
-		-oh, whats that? deleted function? dont mind if i dont.
-		-skip over entire lines of code because std::cin erroneously thinks its got something to say? i say ive written my last cin.ignore().
-		-straightup lie about having opened and written to a file? the punishment is deprecation.
-			
-		-iostream is not even easier syntactically than cstdio, why did they have to make it so difficult?
-		-im convinced whoever wrote the iostream library just wanted to watch us suffer
-
--fill out the rest of the const overloads for Tile
-
--standardize menu format
-	-going with the while loop for now
-		-need to change the rest to the while(key) format
-	-loadMap() for pre-made menu screens?
-		-separate menu Tile*, load one menu at a time(?) and use drawScreen() on the menu?
-		-will actually have to fix showUI in drawScreen()
-
--structure placement tool? (walls&corners)
-	-box brushes formula
-	-only thin/thick walls? custom?
-
--increase Tile data block to 4 bytes
-	-may help with windows compatibility as well
-	-will simplify conversion/construction from int-based inputs
-		-type punning
-	-wont actually change the size of Tile object in memory since were using alignas
-		-will increase file size though
-
--sanitize user input for map loading
-
--text tool centering?
-	-maybe limit the bounds to the last character on the opposite end of the string
-
--implement 24-bit color instead of predetermined ascii colors?
-	-maybe
-	-int enum using byte offsets for defined colors?
-
--add paintControl controls for canvasEdit()
-
--half-block pixel imitation trick
-	-nuh-uh
-	-maybe for future project
-
--adjust free line formulae so its not as fat when drawing cardinal lines
-	-inverse formula?
-
--options menu
-	-line and circle factors
-	-other 'constants'
-	save to file?
-
-
-***these will have to wait until work on the game itself gets underway:
-
-1. ACTIVATORS
-	-had them working on an older version, just need to update them
-
-3. pathfinding/collision map layer
-	-bit array for simplicity?
-		-might be fun to have a 2D or 3D bit array....
-			-would certainly have a smaller memory footprint
-	-byte array to support simple height map?
-		-may or may not be simpler than a 3D bit array in implementation
-
-9. file versioning
-	-will probably hold on this until everything gets more or less finalized.
-
-- Tile rewrite
-	-pre-generated string
-		-test if single-digits will work with ascii formatting if they begin with 0
-		-contain all print data in string, with esc codes
-
-- cell-based maps
-	-break up into smaller squares
-	-cells are stored in individual contiguous arrays
-	-should help performance somewhat
-	-was going to do this anyway for worldgen
-
-*/
-
-
-
-
-//#include <vector>	//currently only used for activators
-#include <array>
-
-//these are currently only used for recovery operations in main()
-#include <sys/stat.h>
-#include <sys/types.h>
 
 #include "WMM.h"
 
@@ -385,3 +218,163 @@ int main(){
 	
 	return 0;
 }
+
+/*
+
+/////////////////////////TO DO - high priority
+
+* fix race condition (in getKey()?) causing key inputs to be printed as text and screwing up the display during laggy times
+	-oof
+	-might honestly be easier just to learn to write our own stream objects
+	-can see it happen at EXACTLY brush size 14 when using the bucket tool on -O3
+		-on -O0, it happens much earlier, so definitely its performance-related
+
+* crash after returning from saveMmap????
+	-FIXED(partially), apparently its an issue with FixedString. changing to std::string prevents the crash
+		-will leave this here until i figure out whats wrong with it
+	-it still saves the map successfully, and theres nothing after that except closing the file and returning
+		-tried chaning return types, removing references, etc, nothing.
+
+* Clipboard
+	-saving and loading files (can be done manually by renaming them)
+	-rotate canvas
+
+* clean up naming and globals
+	-extern vs recursive #include? going with extern for now
+	-fix up naming inconsistencies like map/canvas
+	-remove redundant and obsolete globals
+		-dependent on DOD refactor
+	-consistent typing?
+		-signed vs unsigned
+
+* custom tile input
+	-broken
+	-probably not possible to fill in tileset, just do one character.
+	-might not be necessary now that we have the text tool
+
+* big DOD refactor!
+	-might have to wait until other high-priority things are addressed
+	-reduce runtime branching
+		-break up large functions
+			-drawScreen() is probably the most performance-critical in this respect
+			-specialize functions
+				-performance testing for tail call optimization in a switch statement
+				-call general code from function to avoid repetitious code?
+				-increases abstraction and reduces readability, but probably not by much since most of this code is unlikely to change at this point
+			-getKey() should be split up as well, as it is very performance-critical
+			-split up functions instead of passing bool parameters
+	-group common variables to ensure theyre cached together
+		-x and y are probably the biggest ones
+		-be careful of wasted memory with bools and smaller variables
+	-refactor structs to be more memory efficient
+		-test sizes to see if we can tell when memory is wasted
+		-mixing types creates wasted space? will need to do more research
+			-bools are the most suspect for wasted space, and we use too many as it is.
+
+* WINDOWS SUPPORT!
+	-unicode might as well be alien sorcery to the windows terminal
+		-since Tiles are read as strings, most should just work once we get this fixed.
+		-maybe just set data[0] to \u and offset the char data by one (will need to convert to 4 byte Tile)?
+		-preprocessor macro to swap iostream overloads and manually pass \u before printing tile data?
+	-the hard part is loading and saving files that will work on both platforms
+		-it would probably be easier to just get the windows terminal to use unicode
+	-have to create more preprocessor macros to automatically handle the platform differences	
+	-getkey needs to be overhauled
+
+///////////////////////////low-priority TO DO
+
+-fix undesirable behavior on text tool using brushSize
+	-move outside loops?
+
+-custom tileset?
+	-n-size array, or vector?
+	-hook into tilePicker?
+
+-copy/paste tool import from file?
+	-half done, it does save/load automatically to file
+	-maybe option in loadMap menu?
+		-and saveMap to copy clipboard to another file
+
+-write own file i/o streams based on C stdio.h
+	-ive dealt with this nonsense for the last time!
+	-im venting in the todo comment to remind myself that its worth the effort.
+		-oh, whats that? deleted function? dont mind if i dont.
+		-skip over entire lines of code because std::cin erroneously thinks its got something to say? i say ive written my last cin.ignore().
+		-straightup lie about having opened and written to a file? the punishment is deprecation.
+			
+		-iostream is not even easier syntactically than cstdio, why did they have to make it so difficult?
+		-im convinced whoever wrote the iostream library just wanted to watch us suffer
+
+-fill out the rest of the const overloads for Tile
+
+-standardize menu format
+	-going with the while loop for now
+		-need to change the rest to the while(key) format
+	-loadMap() for pre-made menu screens?
+		-separate menu Tile*, load one menu at a time(?) and use drawScreen() on the menu?
+		-will actually have to fix showUI in drawScreen()
+
+-structure placement tool? (walls&corners)
+	-box brushes formula
+	-only thin/thick walls? custom?
+
+-increase Tile data block to 4 bytes
+	-may help with windows compatibility as well
+	-will simplify conversion/construction from int-based inputs
+		-type punning
+	-wont actually change the size of Tile object in memory since were using alignas
+		-will increase file size though
+
+-sanitize user input for map loading
+
+-text tool centering?
+	-maybe limit the bounds to the last character on the opposite end of the string
+
+-implement 24-bit color instead of predetermined ascii colors?
+	-maybe
+	-int enum using byte offsets for defined colors?
+
+-add paintControl controls for canvasEdit()
+
+-half-block pixel imitation trick
+	-nuh-uh
+	-maybe for future project
+
+-adjust free line formulae so its not as fat when drawing cardinal lines
+	-inverse formula?
+
+-options menu
+	-line and circle factors
+	-other 'constants'
+	save to file?
+
+
+***these will have to wait until work on the game itself gets underway:
+
+1. ACTIVATORS
+	-had them working on an older version, just need to update them
+
+3. pathfinding/collision map layer
+	-bit array for simplicity?
+		-might be fun to have a 2D or 3D bit array....
+			-would certainly have a smaller memory footprint
+	-byte array to support simple height map?
+		-may or may not be simpler than a 3D bit array in implementation
+
+9. file versioning
+	-will probably hold on this until everything gets more or less finalized.
+
+- Tile rewrite
+	-pre-generated string
+		-test if single-digits will work with ascii formatting if they begin with 0
+		-contain all print data in string, with esc codes
+
+- cell-based maps
+	-break up into smaller squares
+	-cells are stored in individual contiguous arrays
+	-should help performance somewhat
+	-was going to do this anyway for worldgen
+
+*/
+
+
