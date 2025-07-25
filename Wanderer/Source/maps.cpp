@@ -63,6 +63,16 @@ bool saveMap(const char* name, Tile*& input, const uint32 sizeX, const uint32 si
 				keyt k = getKey(true);
 				if(k != oneKey)
 					return false;
+			}else{
+				std::string path = saveNameStr;
+				
+				sizet i=saveNameStr.size();
+				for(; path[i] != '/'; i--){}
+				
+				if(i){
+					path[i] = '\0';
+					std::filesystem::create_directory(path);
+				}
 			}
 			//saveFile.open(saveName.data, std::ios::out | std::ios::binary);
 			saveFile.open(saveNameStr, std::ios::out | std::ios::binary);
@@ -80,11 +90,13 @@ bool saveMap(const char* name, Tile*& input, const uint32 sizeX, const uint32 si
 		std::string mapPath = "..";
 		mapPath += filePathSymbol;
 		mapPath += "maps";
+		
+		std::filesystem::create_directory(mapPath);
+		
 		mapPath += filePathSymbol; 
 		//mapPath += saveName.data;
 		mapPath += saveNameStr;
 		mapPath += ".wmap";
-		
 		if(print)
 			out(std::cout,lineBreakFormat,"Implicit directory detected; assuming default directory.","Readying file:",mapPath);
 		
