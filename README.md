@@ -1,6 +1,6 @@
 # Building the Project:
 The project requires the GCC compiler and at least C++23 (due to the use of std::filesystem and some other features).
-
+[Splash screen for calibrating the terminal](screens/splash.png)  [Example screenshot in Paint Mode](screens/example.png)
 ## Linux
 As I've been bouncing between IDEs, I'm still using makefiles- I find it the simplest and most independent solution for now.
 Run 'make' from the Wanderer/Source directory; either "make debug" or "make release" to specify the optimization level. You may also add "clean" to the command to automatically delete the compiled executable on exit.
