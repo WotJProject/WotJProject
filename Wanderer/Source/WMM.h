@@ -94,18 +94,18 @@ private:
 	
 public:
 	
-	Tile()
-		:data({0}),
+	Tile():
 		foreground(tfDefault),
 		background(tfDefault),
-		style(tfDefault)
+		style(tfDefault),
+		data("")
 	{}
-	
-	Tile(const char* input)
-		:data({0}),
+
+	Tile(const char* input):
 		foreground(tfDefault),
 		background(tfDefault),
-		style(tfDefault)
+		style(tfDefault),
+		data("")
 	{
 		for(sizet i = 0; i<3; i++){
 			data[i] = input[i];
@@ -114,10 +114,10 @@ public:
 		}
 	}
 	Tile(const char* input, terminalFormat format):
-		data({0}),
 		foreground(tfDefault),
 		background(tfDefault),
-		style(tfDefault)
+		style(tfDefault),
+		data("")
 	{
 		for(sizet i = 0; i<3; i++){
 			data[i] = input[i];
@@ -127,10 +127,10 @@ public:
 		autoDetectFormat(format);
 	}
 	Tile(const char* input, terminalFormat format1, terminalFormat format2):
-		data({0}),
 		foreground(tfDefault),
 		background(tfDefault),
-		style(tfDefault)
+		style(tfDefault),
+		data("")
 	{
 		for(sizet i = 0; i<3; i++){
 			data[i] = input[i];
@@ -141,10 +141,10 @@ public:
 		autoDetectFormat(format2);
 	}
 	Tile(const char* input, terminalFormat formatFG, terminalFormat formatBG, terminalFormat formatStyle):
-		data({0}),
 		foreground(formatFG),
 		background(formatBG),
-		style(formatStyle)
+		style(formatStyle),
+		data("")
 	{
 		for(sizet i = 0; i<3; i++){
 			data[i] = input[i];
@@ -156,10 +156,10 @@ public:
 		autoDetectFormat(formatStyle);
 	}
 	Tile(char* &input):
-		data({0}),
 		foreground(tfDefault),
 		background(tfDefault),
-		style(tfDefault)
+		style(tfDefault),
+		data("")
 	{
 		for(sizet i = 0; i<3; i++){
 			data[i] = input[i];
@@ -168,27 +168,27 @@ public:
 		}
 	}
 	
-	Tile(char& input):
-		data({0}),
+	Tile(const char& input):
 		foreground(tfDefault),
 		background(tfDefault),
-		style(tfDefault)
+		style(tfDefault),
+		data("")
 	{data[0] = input;}
-	
+
 	Tile(char input):
-		data({0}),
 		foreground(tfDefault),
 		background(tfDefault),
-		style(tfDefault)
+		style(tfDefault),
+		data("")
 	{data[0] = input;}
 	
 	//may be necessary for some unicode values
 	//refactor: use memcpy?
 	Tile(int input):
-		data({0}),
 		foreground(tfDefault),
 		background(tfDefault),
-		style(tfDefault)
+		style(tfDefault),
+		data("")
 	{
 		//this should also handle nullptr inputs
 		if(!input){
@@ -196,7 +196,7 @@ public:
 		}else if(input < maxU8 && input > maxN8){
 			data[0] = (char)(input);
 		}else{
-			char* const copyInput = (char*)(&input);
+			const char* const copyInput = (char*)(&input);
 			data[0] = copyInput[1];
 			data[1] = copyInput[2];
 			data[2] = copyInput[3];
@@ -205,10 +205,10 @@ public:
 	
 	//refactor: use memcpy?
 	Tile(const Tile& input):
-		data({0}),
 		foreground(input.foreground),
 		background(input.background),
-		style(input.style)
+		style(input.style),
+		data("")
 	{
 		//debug("Const reference constructor called.");
 		data[0] = input.data[0];
@@ -262,22 +262,21 @@ public:
 	}
 	
 	//square operators are for manually adjusting data[].
-	char& operator[](sizet index){
+	char operator[](const sizet index) const {
 		if(index>2 || index<0)
 			return data[index % 3];
 		return data[index];
 	}
-	const char& operator[](const sizet index) const {
+	char operator[](const sizet index){
 		if(index>2 || index<0)
 			return data[index % 3];
 		return data[index];
 	}
 	
-	const bool operator!(){
+	bool operator!() const {
 		if(data[0] || data[1] || data[2])
 			return false;
-		else
-			return true;
+		return true;
 	}
 	
 	//const bool operator==(const Tile& comparator){
@@ -289,7 +288,7 @@ public:
 	//			return false;
 	//	return true;
 	//}
-	const bool operator==(const Tile& comparator){
+	bool operator==(const Tile& comparator) const {
 		const char* compAlias = (char*)(&comparator);
 		const char* thisAlias = (char*)(this);
 		
@@ -298,7 +297,7 @@ public:
 				return false;
 		return true;
 	}
-	bool operator==(const char* comparator){
+	bool operator==(const char* comparator) const {
 		for(int i=0; i<3; i++)
 			if(data[i] != comparator[i])
 				return false;
@@ -306,7 +305,7 @@ public:
 		return true;
 	}
 	//wip: needs final testing.
-	bool operator==(const keyt comparator){
+	bool operator==(const keyt comparator) const {
 		const char* dummy = (char*)(&comparator);
 		
 		if(data[0] == dummy[0]){
@@ -352,11 +351,11 @@ public:
 		return;
 	}
 	
-	const bool isFormatted() const {
+	bool isFormatted() const {
 		return !(foreground == tfDefault && background == tfDefault && style == tfDefault);
 	}
 	
-	void copyFormatting(Tile& input){
+	void copyFormatting(const Tile& input){
 		foreground = input.foreground;
 		background = input.background;
 		style = input.style;
@@ -439,11 +438,11 @@ public:
 		
 		return foundProblem;
 	}
-	const bool debug(const char* message){
+	bool debug(const char* message){
 		std::clog << lbr << message << std::endl;
 		return debug(true);
 	}
-	const bool debug(){return debug(false);}
+	bool debug(){return debug(false);}
 };
 
 std::ostream& operator<<(std::ostream& stream, Tile output){
