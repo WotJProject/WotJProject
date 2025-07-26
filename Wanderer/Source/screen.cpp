@@ -1,5 +1,5 @@
-#include "WMM.h"
 #pragma once
+#include "WMM.h"
 
 /*
 color switching:
