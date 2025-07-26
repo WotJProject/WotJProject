@@ -130,8 +130,7 @@ bool initScreen(const bool force){
 	}
 	
 	//initialize default map
-	loadMap("chernocolor");
-	if(!map){
+	if(!loadMap("chernocolor")){
 		mapSizeX = 100;
 		mapSizeY = 100;
 		map = new Tile[mapSizeX * mapSizeY];
