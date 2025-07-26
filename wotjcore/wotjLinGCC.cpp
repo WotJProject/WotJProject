@@ -51,7 +51,7 @@ const char* bulletPoint = "•";	//deprecated, will likely remove on next pass
 
 
 //other platform-dependent wotj libraries go here
-#include ".wotjBitwise_x86.cpp"
+#include "wotjBitwise_x86.cpp"
 
 
 

@@ -38,7 +38,7 @@ typedef int keyt;	//platform-dependent key input type. usually an int.
 
 
 
-
+#include "wotjBitwise_x86.cpp"
 
 
 

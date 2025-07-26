@@ -61,10 +61,10 @@ getData = ptr2D(matrix, width, x, y);
 
 #include "wotjOutput.cpp"
 #include "wotjMath.cpp"
-//#include ".wotjStructures.cpp"	//needs a rewrite
-//#include ".wotjFiles.cpp"
+//#include "wotjStructures.cpp"	//needs a rewrite
+//#include "wotjFiles.cpp"
 #include "wotjTime.cpp"
-//#include ".wotjLibGL.cpp"	//wip pending Vulkan development
+//#include "wotjLibGL.cpp"	//wip pending Vulkan development
 #include "wotjFixedString.cpp"
 #include "wotjNumbers.cpp"
 //#include "wotjWIP.cpp"
