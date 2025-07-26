@@ -747,11 +747,8 @@ bool canvasEdit(Tile*& inputMap, canvasAutorun inputCommand, keyt inputValue){
 					case oneKey:{	//cw
 						dummy = new Tile[mapSizeX * mapSizeY];
 						
-						if(mapSizeX != mapSizeY){
-							auto swapMapDims = mapSizeX;
-							mapSizeX = mapSizeY;
-							mapSizeY = swapMapDims;
-						}
+						if(mapSizeX != mapSizeY)
+							bitSwap(mapSizeX,mapSizeY);
 						
 						for(sizet iy=0; iy<mapSizeY; iy++)
 						for(sizet ix=0; ix<mapSizeX; ix++)
@@ -772,11 +769,8 @@ bool canvasEdit(Tile*& inputMap, canvasAutorun inputCommand, keyt inputValue){
 					case threeKey:{	//ccw
 						dummy = new Tile[mapSizeX * mapSizeY];
 						
-						if(mapSizeX != mapSizeY){
-							auto swapMapDims = mapSizeX;
-							mapSizeX = mapSizeY;
-							mapSizeY = swapMapDims;
-						}
+						if(mapSizeX != mapSizeY)
+							bitSwap(mapSizeX,mapSizeY);
 						
 						for(sizet iy=0; iy<mapSizeY; iy++)
 						for(sizet ix=0; ix<mapSizeX; ix++)
