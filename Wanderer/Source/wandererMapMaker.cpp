@@ -164,7 +164,7 @@ bool recoveryCheck(){
 	
 	if(latestFile.st_mtime != 0){
 		clearScreen;
-		out(lbrFormat,"Uh-oh! The program may not have exited properly last time.","Would you like to continue where you left off?",
+		out(lbrFormat,"Uh-oh! The program may not have exited properly last time.","Would you like to continue where you left off?\n",
 			" 1. Yes, attempt to load last action state from undo history.",
 			" 2. No, ignore and restart from scratch.",
 			"\nTAB - Exit program.\n");
